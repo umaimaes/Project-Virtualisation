@@ -1,7 +1,183 @@
 ﻿@page "/"
-
 <PageTitle>Home</PageTitle>
 
-<h1>HEllo Helloooo</h1>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-Welcome to your new app.
+    :root {
+        --primary-color: #7F56D9;
+        --primary-light: #F9F5FF;
+        --secondary-color: #101828;
+        --accent-color: #F63B60;
+        --text-color: #344054;
+        --light-text: #667085;
+        --border-color: #E4E7EC;
+        --background-color: #FFFFFF;
+        --light-background: #F9FAFB;
+        --success-color: #12B76A;
+        --warning-color: #F79009;
+        --error-color: #F04438;
+        --border-radius: 8px;
+        --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.1);
+        --shadow-md: 0 4px 8px -2px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
+        --shadow-lg: 0 12px 16px -4px rgba(16, 24, 40, 0.08), 0 4px 6px -2px rgba(16, 24, 40, 0.03);
+        --transition: all 0.3s ease;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        color: var(--text-color);
+        line-height: 1.5;
+        background-color: var(--background-color);
+    }
+</style>
+
+
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Unlock Your Potential With <span>Online Learning</span></h1>
+            <p>Access world-class education at your fingertips. Learn at your own pace with our curated courses designed for the modern learner.</p>
+            <div class="hero-cta">
+                <a href="#" class="btn btn-primary">Explore Courses</a>
+                <a href="#" class="btn btn-outline">How It Works</a>
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Courses</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">50k+</span>
+                    <span class="stat-label">Students</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100+</span>
+                    <span class="stat-label">Instructors</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="image-container">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Student learning online">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <h2>Why Choose <span>EduSphere</span></h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="icon-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                </div>
+                <h3>Flexible Learning</h3>
+                <p>Learn at your own pace, anytime and anywhere with our flexible course structure.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="icon-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 8v4l3 3"></path>
+                        </svg>
+                    </div>
+                </div>
+                <h3>Self-Paced Courses</h3>
+                <p>Take as much time as you need to complete courses with lifetime access.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="icon-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                </div>
+                <h3>Expert Instructors</h3>
+                <p>Learn from industry professionals with real-world experience and expertise.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="categories">
+    <div class="container">
+        <h2>Popular <span>Categories</span></h2>
+        <div class="category-grid">
+            <a href="#" class="category-card">
+                <div class="category-icon" style="background-color: #FFE2E6;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                    </svg>
+                </div>
+                <h3>Design</h3>
+                <p>120 Courses</p>
+            </a>
+            <a href="#" class="category-card">
+                <div class="category-icon" style="background-color: #E3F5FF;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#0095FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                </div>
+                <h3>Development</h3>
+                <p>310 Courses</p>
+            </a>
+            <a href="#" class="category-card">
+                <div class="category-icon" style="background-color: #FFF3E3;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#FF9F43" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                        <line x1="6" y1="1" x2="6" y2="4"></line>
+                        <line x1="10" y1="1" x2="10" y2="4"></line>
+                        <line x1="14" y1="1" x2="14" y2="4"></line>
+                    </svg>
+                </div>
+                <h3>Business</h3>
+                <p>185 Courses</p>
+            </a>
+            <a href="#" class="category-card">
+                <div class="category-icon" style="background-color: #E7F9F9;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1DE9B6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                </div>
+                <h3>Languages</h3>
+                <p>95 Courses</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Start Your Learning Journey?</h2>
+            <p>Join thousands of students already learning on EduSphere.</p>
+            <a href="#" class="btn btn-primary">Get Started For Free</a>
+        </div>
+        <div class="cta-image">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80" alt="Students collaborating">
+        </div>
+    </div>
+</section>
