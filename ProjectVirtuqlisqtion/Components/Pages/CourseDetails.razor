@@ -1,4 +1,5 @@
 ﻿@page "/CourseDetails"
+@inject CourseService CourseService
 <style>
     /* Reset and Base Styles */
     * {
@@ -569,312 +570,220 @@
         margin-bottom: 1rem;
     }
 </style>
-
-<div class="container">
-    <div class="breadcrumb">
-        <a href="/">Home</a>
-        <span>/</span>
-        <a href="/Coursess">Courses</a>
-        <span>/</span>
-        <span>Web Development Fundamentals</span>
-    </div>
-</div>
-
-<section class="course-hero">
+@if (course != null)
+{
     <div class="container">
-        <div class="course-hero-content">
-            <div class="course-badge">Development</div>
-            <h1>Web Development Fundamentals: HTML, CSS & JavaScript</h1>
-            <p class="course-description">Learn the core technologies that power the web. Build responsive websites from scratch with HTML, CSS, and JavaScript.</p>
-            
-            <div class="course-rating">
-                <div class="stars">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                </div>
-                <span class="rating-number">4.9</span>
-                <span class="rating-count">(234 reviews)</span>
-            </div>
-            
-            <div class="course-meta-info">
-                <div class="meta-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2v6m0 12v2"></path>
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M12 14l6.3-3.7"></path>
-                    </svg>
-                    <span>24 Hours of Video</span>
-                </div>
-                <div class="meta-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                    </svg>
-                    <span>Beginner Level</span>
-                </div>
-                <div class="meta-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="9" cy="7" r="4"></circle>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                    </svg>
-                    <span>12,345 Students</span>
-                </div>
-                <div class="meta-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
-                    <span>Last Updated: July 2023</span>
-                </div>
-            </div>
-            
-            <div class="course-instructor-preview">
-                <div class="instructor-avatar">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="David Mitchell">
-                </div>
-                <div class="instructor-info">
-                    <h4>David Mitchell</h4>
-                    <p>Senior Web Developer</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="course-image">
-            <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Web Development Fundamentals">
-            
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/Coursess">Courses</a>
+            <span>/</span>
+            <span>Web Development Fundamentals</span>
         </div>
     </div>
-</section>
 
-<section class="course-overview">
-    <div class="container">
-        <div class="course-content-main">
-            <div class="tabs">
-                <div class="tab-list">
-                    <div class="tab-item active">Overview</div>
+    <section class="course-hero">
+        <div class="container">
+            <div class="course-hero-content">
+                <div class="course-badge">@course.Category</div>
+                <h1>@course.Title</h1>
+                <p class="course-description">@course.Description</p>
+
+                <div class="course-rating">
+                    <div class="stars">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                    <span class="rating-number">4.9</span>
+                    <span class="rating-count">(234 reviews)</span>
                 </div>
-            </div>
-            
-            <div class="what-youll-learn">
-                <h3>What You'll Learn</h3>
-                <div class="learn-list">
-                    <div class="learn-item">
+
+                <div class="course-meta-info">
+                    <div class="meta-item">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
+                            <path d="M12 2v6m0 12v2"></path>
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 14l6.3-3.7"></path>
                         </svg>
-                        <span>Build responsive websites with HTML5, CSS3, and JavaScript</span>
+                        <span>@course.Hours Hours of Video</span>
                     </div>
-                    <div class="learn-item">
+                    <div class="meta-item">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
                         </svg>
-                        <span>Create layouts using Flexbox and CSS Grid</span>
+                        <span>@course.Level</span>
                     </div>
-                    <div class="learn-item">
+                    <div class="meta-item">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                         </svg>
-                        <span>Write clean, efficient, and maintainable code</span>
+                        <span>12,345 Students</span>
                     </div>
-                    <div class="learn-item">
+                    <div class="meta-item">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
                         </svg>
-                        <span>Implement modern JavaScript features and DOM manipulation</span>
-                    </div>
-                    <div class="learn-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <span>Deploy websites to production environments</span>
-                    </div>
-                    <div class="learn-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <span>Build 5 real-world web development projects</span>
-                    </div>
-                    <div class="learn-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <span>Optimize websites for performance and SEO</span>
-                    </div>
-                    <div class="learn-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <span>Understand version control with Git and GitHub</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="course-about">
-                <h3>About This Course</h3>
-                <p>Welcome to the Web Development Fundamentals course, where you'll learn the essential technologies that drive the modern web. This comprehensive course is designed for absolute beginners who want to start a career in web development or enhance their current skill set.</p>
-                
-                <p>HTML (Hypertext Markup Language), CSS (Cascading Style Sheets), and JavaScript form the backbone of all websites and web applications. In this course, you'll master these technologies from the ground up and learn how they work together to create beautiful, functional websites.</p>
-                
-                <p>Through hands-on projects and real-world examples, you'll build a strong foundation in web development principles and best practices. By the end of the course, you'll have created your own responsive websites and have the skills to continue your journey as a web developer.</p>
-                
-                <p>Whether you're looking to start a new career, freelance as a web developer, or simply understand how the web works, this course will provide you with the knowledge and practical skills you need to succeed.</p>
-            </div>
-            
-            <div class="course-curriculum">
-                <div class="curriculum-header">
-                    <h3>Course Curriculum</h3>
-                    <div class="curriculum-stats">
-                        <div>10 Sections</div>
-                        <div>62 Lectures</div>
-                        <div>24 Hours</div>
+                        <span>Last Updated: July 2023</span>
                     </div>
                 </div>
-                
-                <div class="curriculum-accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <div class="accordion-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                                Section 1: Introduction to Web Development
-                            </div>
-                            <div class="accordion-meta">
-                                <span>5 lectures</span>
-                                <span>1 hour 15 min</span>
-                            </div>
-                        </div>
-                        <div class="accordion-body">
-                            
-                        </div>
+
+                <div class="course-instructor-preview">
+                    <div class="instructor-avatar">
+                        <img src="/ImagesInstructors/@course.Instructor.AvatarUrl"/>
                     </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <div class="accordion-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                                Section 2: HTML Fundamentals
-                            </div>
-                            <div class="accordion-meta">
-                                <span>8 lectures</span>
-                                <span>2 hours 30 min</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <div class="accordion-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                                Section 3: CSS Basics and Styling
-                            </div>
-                            <div class="accordion-meta">
-                                <span>10 lectures</span>
-                                <span>3 hours 45 min</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <div class="accordion-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                                Section 4: CSS Layout Techniques
-                            </div>
-                            <div class="accordion-meta">
-                                <span>7 lectures</span>
-                                <span>2 hours 50 min</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <div class="accordion-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                                Section 5: Responsive Web Design
-                            </div>
-                            <div class="accordion-meta">
-                                <span>6 lectures</span>
-                                <span>2 hours 15 min</span>
-                            </div>
-                        </div>
+                    <div class="instructor-info">
+                        <h4>@course.Instructor.Name</h4>
+                        <p>@course.Instructor.Title</p>
                     </div>
                 </div>
             </div>
-            
-            <div class="instructor-section">
-                <h3>Your Instructor</h3>
-                <div class="instructor-card">
-                    <div class="instructor-profile">
-                        <div class="instructor-avatar-lg">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="David Mitchell">
-                        </div>
-                        <h4>David Mitchell</h4>
-                        <p>Senior Web Developer</p>
-                    </div>
-                    
-                    <div class="instructor-bio">
-                        <h4>About David Mitchell</h4>
-                        <p>David Mitchell is a Senior Web Developer with over 10 years of experience building websites and web applications for clients ranging from startups to Fortune 500 companies. He specializes in front-end development and has a passion for creating beautiful, responsive websites that deliver exceptional user experiences.</p>
-                        
-                        <p>After graduating with a degree in Computer Science, David worked at several tech companies before becoming a full-time educator. He's known for his clear, concise teaching style and ability to break down complex concepts into easy-to-understand lessons.</p>
-                        
-                        <p>When he's not teaching or coding, David contributes to open-source projects and speaks at web development conferences around the world. He believes that anyone can learn to code with the right guidance and is committed to helping students build the skills they need to succeed in the tech industry.</p>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-        
-        <div>
-            <div class="course-card">
-                <div class="card-header">
-                    <div class="course-price">
-                        <div class="current-price">$49.99</div>
-                        <div class="original-price">$99.99</div>
-                        <div class="discount-badge">50% off</div>
-                    </div>
-                    <div class="price-note">Sale ends in 2 days!</div>
-                    <div class="enrollment-actions">
-                        <a href="#" class="btn btn-primary btn-lg btn-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="8" y1="12" x2="16" y2="12"></line>
-                                <line x1="12" y1="16" x2="12" y2="8"></line>
-                            </svg>
-                            Enroll Now
-                        </a>
-                    </div>
-                </div>
-               
+
+            <div class="course-image">
+                <img src="/ImageCourses/@course.ImageUrl">
+
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <section class="course-overview">
+        <div class="container">
+            <div class="course-content-main">
+                <div class="tabs">
+                    <div class="tab-list">
+                        <div class="tab-item active">Overview</div>
+                    </div>
+                </div>
+
+                <div class="what-youll-learn">
+                    <h3>What You'll Learn</h3>
+
+                    <div class="learn-list">
+                        @foreach (var l in course.WhatYouWillLearns)
+                        {
+                            <div class="learn-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                <span>@l.Content</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="course-about">
+                    <h3>About This Course</h3>
+                    <p>@course.AboutContent </p>
+                </div>
+
+                <div class="course-curriculum">
+                    <div class="curriculum-header">
+                        <h3>Course Curriculum</h3>
+                        <div class="curriculum-stats">
+                            <div>10 Sections</div>
+                            <div>62 Lectures</div>
+                            <div>24 Hours</div>
+                        </div>
+                    </div>
+
+                    <div class="curriculum-accordion">
+                        @foreach (var l in course.Curriculum)
+                        {
+                            <div class="accordion-item">
+                                <div class="accordion-header">
+                                    <div class="accordion-title">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
+                                        @l.Title
+                                    </div>
+                                    <div class="accordion-meta">
+                                        <span> @l.LectureCount Lectures</span>
+                                        <span>@l.DurationMinutes Hours</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="instructor-section">
+                    <h3>Your Instructor</h3>
+                    <div class="instructor-card">
+                        <div class="instructor-profile">
+                            <div class="instructor-avatar-lg">
+                                <img src="/ImagesInstructors/@course.Instructor.AvatarUrl">
+                            </div>
+                            <h4>@course.Instructor.Name</h4>
+                            <p>@course.Instructor.Title</p>
+                        </div>
+
+                        <div class="instructor-bio">
+                            <h4>About @course.Instructor.Name</h4>
+                            <p>
+                                @course.Instructor.Biography
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div>
+                <div class="course-card">
+                    <div class="card-header">
+                        <div class="course-price">
+                            <div class="current-price">$49.99</div>
+                            <div class="original-price">$99.99</div>
+                            <div class="discount-badge">50% off</div>
+                        </div>
+                        <div class="price-note">Sale ends in 2 days!</div>
+                        <div class="enrollment-actions">
+                            <a href="#" class="btn btn-primary btn-lg btn-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12" y2="8"></line>
+                                </svg>
+                                Enroll Now
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+}
 
 
+@code {
+    List<Course> courses;
+    Course course;
+
+    protected override async Task OnInitializedAsync()
+    {
+        courses = await CourseService.GetAllAsync();
+        course = CourseService.GetCourse();
+
+    }
+}
