@@ -301,7 +301,7 @@
         <div class="container">
             <div class="quiz-header">
                 <h1>@course.Title</h1>
-                <p>Complete this quick quiz to test your knowledge before starting the course.</p>
+                <p>You need to score 100% to pass. Good luck!</p>
             </div>
 
             <div class="quiz-container">
@@ -324,59 +324,134 @@
                                 </label>
                             }
                         </div>
-                        <div class="quiz-actions">
-                            <button class="btn btn-secondary" @onclick="() => ResetQuestion(q.index)">Reset Qst</button>
-                            <button class="btn btn-primary" @onclick="() => ValidateQuestion(q.index)">Validate Qst</button>
-                        </div>
+                        @* Removed individual question validation and reset buttons for simplicity *@
                     </div>
                 }
             </div>
 
             <div class="quiz-actions">
-                <button class="btn btn-primary" @onclick="SubmitQuiz">Submit Quiz</button>
+                <button class="btn btn-secondary" @onclick="ResetAllAnswers">Reset All Answers</button>
+                <button class="btn btn-primary" @onclick="SubmitQuiz" disabled="@(!AllQuestionsAnswered())">Submit Quiz</button>
             </div>
         </div>
     </section>
 }
+else
+{
+    <p>Loading quiz...</p>
+}
 
 @code {
     Course course;
-    private Dictionary<int, int> selectedAnswers = new(); // To track selected answers per question
-    private Dictionary<int, bool> validatedQuestions = new(); // To track validated questions
+    private Dictionary<int, int> selectedAnswers = new();
 
     protected override async Task OnInitializedAsync()
     {
+        Console.WriteLine("CourseQuiz: OnInitializedAsync started.");
         course = CService.GetCourse();
+
+        if (course == null)
+        {
+            Console.WriteLine("CourseQuiz: Course is null after getting from service.");
+        }
+        else if (course.Quiz == null)
+        {
+            Console.WriteLine("CourseQuiz: Course.Quiz is null.");
+        }
+        else if (!course.Quiz.Any())
+        {
+            Console.WriteLine("CourseQuiz: Course.Quiz is empty.");
+        }
+        else
+        {
+            Console.WriteLine($"CourseQuiz: Course '{course.Title}' loaded with {course.Quiz.Count} questions.");
+        }
+        // It's good practice to call StateHasChanged if data is loaded asynchronously
+        // and affects the initial render, but GetCourse() is synchronous here.
     }
 
     private void SelectAnswer(int questionIndex, int optionId)
     {
         selectedAnswers[questionIndex] = optionId;
-    }
-
-    private void ValidateQuestion(int questionIndex)
-    {
-        if (selectedAnswers.ContainsKey(questionIndex))
-        {
-            validatedQuestions[questionIndex] = true;
-            StateHasChanged();
-        }
-        else
-        {
-            validatedQuestions[questionIndex] = false;
-            StateHasChanged();
-        }
-    }
-
-    private void ResetQuestion(int questionIndex)
-    {
-        selectedAnswers.Remove(questionIndex); // Remove answer
-        validatedQuestions.Remove(questionIndex); // Remove validation
+        Console.WriteLine($"CourseQuiz: Question {questionIndex + 1} answered with option {optionId}. Total answers: {selectedAnswers.Count}");
+        // Force UI update for the disabled state of the button if it depends on AllQuestionsAnswered()
         StateHasChanged();
     }
 
-    private void SubmitQuiz()
+    private bool AllQuestionsAnswered()
     {
-        
+        if (course == null || course.Quiz == null || !course.Quiz.Any())
+        {
+            // If there are no questions, arguably all (zero) questions are answered.
+            // Or, if there should always be questions, this indicates an issue.
+            // For the button's sake, let's assume if quiz isn't ready, they aren't "answered".
+            Console.WriteLine("CourseQuiz: AllQuestionsAnswered - Course or Quiz not ready or empty.");
+            return false;
+        }
+        bool allAnswered = selectedAnswers.Count == course.Quiz.Count;
+        Console.WriteLine($"CourseQuiz: AllQuestionsAnswered check: {allAnswered}. Selected: {selectedAnswers.Count}, Total Questions: {course.Quiz.Count}");
+        return allAnswered;
+    }
+
+    private void ResetAllAnswers()
+    {
+        selectedAnswers.Clear();
+        Console.WriteLine("CourseQuiz: All answers reset.");
+        StateHasChanged();
+    }
+
+    private async Task SubmitQuiz()
+    {
+        Console.WriteLine("CourseQuiz: SubmitQuiz method called.");
+
+        if (course == null || course.Quiz == null || !course.Quiz.Any())
+        {
+            Console.WriteLine("CourseQuiz: SubmitQuiz - Course or quiz data is not available. Aborting.");
+            // Consider adding user feedback here, e.g., using a message variable displayed in HTML
+            // await JSRuntime.InvokeVoidAsync("alert", "Error: Quiz data is not available.");
+            return;
+        }
+        Console.WriteLine($"CourseQuiz: SubmitQuiz - Proceeding with {course.Quiz.Count} questions.");
+
+        if (!AllQuestionsAnswered())
+        {
+            Console.WriteLine("CourseQuiz: SubmitQuiz - Not all questions answered. Aborting.");
+            // Consider adding user feedback here
+            // await JSRuntime.InvokeVoidAsync("alert", "Please answer all questions before submitting.");
+            return;
+        }
+        Console.WriteLine("CourseQuiz: SubmitQuiz - All questions answered. Calculating score.");
+
+        int correctAnswers = 0;
+        for (int i = 0; i < course.Quiz.Count; i++)
+        {
+            if (selectedAnswers.TryGetValue(i, out int selectedOptionId))
+            {
+                if (selectedOptionId == course.Quiz[i].CorrectOptionId)
+                {
+                    correctAnswers++;
+                }
+            }
+        }
+        Console.WriteLine($"CourseQuiz: SubmitQuiz - Correct answers: {correctAnswers} out of {course.Quiz.Count}.");
+
+        if (correctAnswers == course.Quiz.Count) // 100% condition
+        {
+            Console.WriteLine("CourseQuiz: SubmitQuiz - Quiz passed! Navigating to /Congrat.");
+            NavigationManager.NavigateTo("/Congratulations");
+        }
+        else
+        {
+            Console.WriteLine("CourseQuiz: SubmitQuiz - Quiz not passed (not 100%). No navigation.");
+            // Provide feedback to the user that they didn't pass
+            // For example, you could set a message property and display it in your HTML,
+            // or use IJSRuntime to show an alert if you inject it.
+            // Example (requires IJSRuntime injection):
+            // await JSRuntime.InvokeVoidAsync("alert", $"You scored {correctAnswers}/{course.Quiz.Count}. You need 100% to pass. Please review your answers.");
+            // For now, just a console log:
+            Console.WriteLine($"User scored {correctAnswers} out of {course.Quiz.Count}. Required 100%.");
+            // You might want to add an alert here too using IJSRuntime if you re-add it.
+            // For example: await JSRuntime.InvokeVoidAsync("alert", "You did not achieve 100%. Please try again.");
+        }
     }
 }
