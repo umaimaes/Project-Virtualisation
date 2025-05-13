@@ -6,7 +6,7 @@
         public string Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Category { get; set; } // e.g., "Development"
+        public string Category { get; set; } 
 
         // Course meta information
         public string Level { get; set; } // e.g., "Beginner"
@@ -23,6 +23,8 @@
         public List<WhatYouWillLearn> WhatYouWillLearns { get; set; }
         public string AboutContent { get; set; }
         public List<CourseSection> Curriculum { get; set; }
+
+        public List<QuizQuestion> Quiz { get; set; }
     }
    
 }

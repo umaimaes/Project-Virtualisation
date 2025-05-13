@@ -1,0 +1,324 @@
+﻿@page "/Test"
+@inject CourseService _courseService
+
+<button @onclick="SeedCoursesAsync">Send</button>
+
+@code {
+    public async Task SeedCoursesAsync()
+    {
+        // ====== Course 1: Fullstack Web Development Bootcamp ======
+        var instructor1 = new Instructor
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "Alice Johnson",
+                Title = "Senior Fullstack Developer",
+                AvatarUrl = "https://example.com/images/instructors/alice.jpg",
+                Biography = "Alice has 12+ years of experience in web development, specializing in React and .NET."
+            };
+        await _courseService.CreateInstructoe(instructor1);
+
+        var whats1 = new List<WhatYouWillLearn>
+        {
+            new WhatYouWillLearn { Content = "Build responsive websites with HTML, CSS, and JavaScript" },
+            new WhatYouWillLearn { Content = "Develop backend APIs using .NET Core" },
+            new WhatYouWillLearn { Content = "Deploy applications to the cloud" }
+        };
+        foreach (var what in whats1)
+            await _courseService.CreateWhats(what);
+
+        var curriculum1 = new List<CourseSection>
+        {
+            new CourseSection { Title = "Frontend Development", LectureCount = 10, DurationMinutes = 600 },
+            new CourseSection { Title = "Backend with .NET Core", LectureCount = 8, DurationMinutes = 480 },
+            new CourseSection { Title = "Deployment & DevOps", LectureCount = 5, DurationMinutes = 300 }
+        };
+        foreach (var cs in curriculum1)
+            await _courseService.CreateCourseSection(cs);
+
+        var quiz1_q1 = new QuizQuestion
+            {
+                QuestionText = "Which language is used for styling web pages?",
+                Options = new List<QuizOption>
+            {
+                new QuizOption { Text = "HTML" },
+                new QuizOption { Text = "CSS" },
+                new QuizOption { Text = "JavaScript" },
+                new QuizOption { Text = "C#" }
+            },
+                CorrectOptionId = 2 // CSS
+            };
+        foreach (var opt in quiz1_q1.Options)
+            await _courseService.CreateQuizoption(opt);
+        await _courseService.CreateQuizQuestion(quiz1_q1);
+
+        var quiz1_q2 = new QuizQuestion
+            {
+                QuestionText = "Which HTTP method is commonly used to retrieve data?",
+                Options = new List<QuizOption>
+            {
+                new QuizOption { Text = "POST" },
+                new QuizOption { Text = "GET" },
+                new QuizOption { Text = "PUT" },
+                new QuizOption { Text = "DELETE" }
+            },
+                CorrectOptionId = 2 // GET
+            };
+        foreach (var opt in quiz1_q2.Options)
+            await _courseService.CreateQuizoption(opt);
+        await _courseService.CreateQuizQuestion(quiz1_q2);
+
+        var course1 = new Course
+            {
+                Id = Guid.NewGuid().ToString(),
+                Title = "Fullstack Web Development Bootcamp",
+                Description = "Master front-end and back-end technologies to become a fullstack web developer.",
+                Category = "Web Development",
+                Level = "Beginner",
+                Hours = 40,
+                Price = 99.99m,
+                Instructor = instructor1,
+                WhatYouWillLearns = whats1,
+                Curriculum = curriculum1,
+                Quiz = new List<QuizQuestion> { quiz1_q1, quiz1_q2 },
+                ImageUrl = "https://example.com/images/courses/fullstack.jpg",
+                AboutContent = "This bootcamp is designed for beginners who want to kickstart a career in fullstack web development."
+            };
+        await _courseService.CreateCourse(course1);
+
+        // ====== Course 2: C# and OOP ======
+        var instructor2 = new Instructor
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "Michael Lee",
+                Title = "Software Engineer & C# Expert",
+                AvatarUrl = "https://example.com/images/instructors/michael.jpg",
+                Biography = "Michael specializes in C# development with over 8 years in the software industry."
+            };
+        await _courseService.CreateInstructoe(instructor2);
+
+        var whats2 = new List<WhatYouWillLearn>
+        {
+            new WhatYouWillLearn { Content = "Understand C# syntax and data types" },
+            new WhatYouWillLearn { Content = "Apply OOP principles like inheritance and polymorphism" },
+            new WhatYouWillLearn { Content = "Build small-scale applications with C#" }
+        };
+        foreach (var what in whats2)
+            await _courseService.CreateWhats(what);
+
+        var curriculum2 = new List<CourseSection>
+        {
+            new CourseSection { Title = "C# Basics", LectureCount = 6, DurationMinutes = 360 },
+            new CourseSection { Title = "OOP Principles", LectureCount = 7, DurationMinutes = 420 },
+            new CourseSection { Title = "Practical Projects", LectureCount = 3, DurationMinutes = 180 }
+        };
+        foreach (var cs in curriculum2)
+            await _courseService.CreateCourseSection(cs);
+
+        var quiz2_q1 = new QuizQuestion
+            {
+                QuestionText = "Which keyword is used to create a new object in C#?",
+                Options = new List<QuizOption>
+            {
+                new QuizOption { Text = "create" },
+                new QuizOption { Text = "class" },
+                new QuizOption { Text = "new" },
+                new QuizOption { Text = "object" }
+            },
+                CorrectOptionId = 3 // new
+            };
+        foreach (var opt in quiz2_q1.Options)
+            await _courseService.CreateQuizoption(opt);
+        await _courseService.CreateQuizQuestion(quiz2_q1);
+
+        var quiz2_q2 = new QuizQuestion
+            {
+                QuestionText = "Which of these is an example of encapsulation?",
+                Options = new List<QuizOption>
+            {
+                new QuizOption { Text = "Using public fields in a class" },
+                new QuizOption { Text = "Hiding internal details using properties" },
+                new QuizOption { Text = "Deriving one class from another" },
+                new QuizOption { Text = "Using interfaces" }
+            },
+                CorrectOptionId = 2 // Hiding internal details using properties
+            };
+        foreach (var opt in quiz2_q2.Options)
+            await _courseService.CreateQuizoption(opt);
+        await _courseService.CreateQuizQuestion(quiz2_q2);
+
+        var course2 = new Course
+            {
+                Id = Guid.NewGuid().ToString(),
+                Title = "C# and Object-Oriented Programming",
+                Description = "Learn C# fundamentals and master Object-Oriented Programming concepts.",
+                Category = "Programming",
+                Level = "Intermediate",
+                Hours = 25,
+                Price = 59.99m,
+                Instructor = instructor2,
+                WhatYouWillLearns = whats2,
+                Curriculum = curriculum2,
+                Quiz = new List<QuizQuestion> { quiz2_q1, quiz2_q2 },
+                ImageUrl = "https://example.com/images/courses/csharp.jpg",
+                AboutContent = "A practical course for developers who want to deepen their understanding of C# and OOP."
+            };
+        await _courseService.CreateCourse(course2);
+        // ====== Course 3: Data Science with Python ======
+        var instructor3 = new Instructor
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "Sarah Williams",
+                Title = "Data Scientist & AI Specialist",
+                AvatarUrl = "https://example.com/images/instructors/sarah.jpg",
+                Biography = "Sarah has worked with leading tech companies, focusing on AI, machine learning, and data visualization."
+            };
+        await _courseService.CreateInstructoe(instructor3);
+
+        var whats3 = new List<WhatYouWillLearn>
+    {
+        new WhatYouWillLearn { Content = "Perform data analysis using Python libraries" },
+        new WhatYouWillLearn { Content = "Visualize data with Matplotlib and Seaborn" },
+        new WhatYouWillLearn { Content = "Build machine learning models with Scikit-Learn" }
+    };
+        foreach (var what in whats3)
+            await _courseService.CreateWhats(what);
+
+        var curriculum3 = new List<CourseSection>
+    {
+        new CourseSection { Title = "Python for Data Science", LectureCount = 9, DurationMinutes = 540 },
+        new CourseSection { Title = "Data Visualization Techniques", LectureCount = 6, DurationMinutes = 360 },
+        new CourseSection { Title = "Intro to Machine Learning", LectureCount = 7, DurationMinutes = 420 }
+    };
+        foreach (var cs in curriculum3)
+            await _courseService.CreateCourseSection(cs);
+
+        var quiz3_q1 = new QuizQuestion
+            {
+                QuestionText = "Which Python library is primarily used for data manipulation?",
+                Options = new List<QuizOption>
+        {
+            new QuizOption { Text = "NumPy" },
+            new QuizOption { Text = "Pandas" },
+            new QuizOption { Text = "Matplotlib" },
+            new QuizOption { Text = "Seaborn" }
+        },
+                CorrectOptionId = 2 // Pandas
+            };
+        foreach (var opt in quiz3_q1.Options)
+            await _courseService.CreateQuizoption(opt);
+        await _courseService.CreateQuizQuestion(quiz3_q1);
+
+        var quiz3_q2 = new QuizQuestion
+            {
+                QuestionText = "Which of these is a supervised learning algorithm?",
+                Options = new List<QuizOption>
+        {
+            new QuizOption { Text = "K-Means Clustering" },
+            new QuizOption { Text = "Linear Regression" },
+            new QuizOption { Text = "PCA" },
+            new QuizOption { Text = "Apriori Algorithm" }
+        },
+                CorrectOptionId = 2 // Linear Regression
+            };
+        foreach (var opt in quiz3_q2.Options)
+            await _courseService.CreateQuizoption(opt);
+        await _courseService.CreateQuizQuestion(quiz3_q2);
+
+        var course3 = new Course
+            {
+                Id = Guid.NewGuid().ToString(),
+                Title = "Data Science with Python",
+                Description = "A comprehensive guide to data analysis, visualization, and machine learning with Python.",
+                Category = "Data Science",
+                Level = "Intermediate",
+                Hours = 35,
+                Price = 89.99m,
+                Instructor = instructor3,
+                WhatYouWillLearns = whats3,
+                Curriculum = curriculum3,
+                Quiz = new List<QuizQuestion> { quiz3_q1, quiz3_q2 },
+                ImageUrl = "https://example.com/images/courses/datascience.jpg",
+                AboutContent = "This course is tailored for developers and analysts eager to dive into data science using Python."
+            };
+        await _courseService.CreateCourse(course3);
+
+        // ====== Course 4: UI/UX Design Principles ======
+        var instructor4 = new Instructor
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "Emily Brown",
+                Title = "UI/UX Designer & Product Strategist",
+                AvatarUrl = "https://example.com/images/instructors/emily.jpg",
+                Biography = "Emily has designed intuitive user experiences for startups and enterprises for over a decade."
+            };
+        await _courseService.CreateInstructoe(instructor4);
+
+        var whats4 = new List<WhatYouWillLearn>
+    {
+        new WhatYouWillLearn { Content = "Understand key UI/UX principles and methodologies" },
+        new WhatYouWillLearn { Content = "Design user-centric wireframes and prototypes" },
+        new WhatYouWillLearn { Content = "Master tools like Figma and Adobe XD" }
+    };
+        foreach (var what in whats4)
+            await _courseService.CreateWhats(what);
+
+        var curriculum4 = new List<CourseSection>
+    {
+        new CourseSection { Title = "Foundations of UI/UX", LectureCount = 5, DurationMinutes = 300 },
+        new CourseSection { Title = "Wireframing & Prototyping", LectureCount = 7, DurationMinutes = 420 },
+        new CourseSection { Title = "Design Tools & Case Studies", LectureCount = 6, DurationMinutes = 360 }
+    };
+        foreach (var cs in curriculum4)
+            await _courseService.CreateCourseSection(cs);
+
+        var quiz4_q1 = new QuizQuestion
+            {
+                QuestionText = "Which principle focuses on keeping interfaces simple and user-friendly?",
+                Options = new List<QuizOption>
+        {
+            new QuizOption { Text = "Aesthetic Usability" },
+            new QuizOption { Text = "Hick's Law" },
+            new QuizOption { Text = "KISS Principle" },
+            new QuizOption { Text = "Fitts's Law" }
+        },
+                CorrectOptionId = 3 // KISS Principle
+            };
+        foreach (var opt in quiz4_q1.Options)
+            await _courseService.CreateQuizoption(opt);
+        await _courseService.CreateQuizQuestion(quiz4_q1);
+
+        var quiz4_q2 = new QuizQuestion
+            {
+                QuestionText = "Which tool is widely used for collaborative interface design?",
+                Options = new List<QuizOption>
+        {
+            new QuizOption { Text = "Photoshop" },
+            new QuizOption { Text = "Figma" },
+            new QuizOption { Text = "Illustrator" },
+            new QuizOption { Text = "After Effects" }
+        },
+                CorrectOptionId = 2 // Figma
+            };
+        foreach (var opt in quiz4_q2.Options)
+            await _courseService.CreateQuizoption(opt);
+        await _courseService.CreateQuizQuestion(quiz4_q2);
+
+        var course4 = new Course
+            {
+                Id = Guid.NewGuid().ToString(),
+                Title = "UI/UX Design Principles",
+                Description = "Learn the essential principles of user interface and user experience design.",
+                Category = "Design",
+                Level = "Beginner",
+                Hours = 20,
+                Price = 49.99m,
+                Instructor = instructor4,
+                WhatYouWillLearns = whats4,
+                Curriculum = curriculum4,
+                Quiz = new List<QuizQuestion> { quiz4_q1, quiz4_q2 },
+                ImageUrl = "https://example.com/images/courses/uiux.jpg",
+                AboutContent = "This course is perfect for aspiring designers wanting to build intuitive and beautiful digital products."
+            };
+        await _courseService.CreateCourse(course4);
+    }
+}

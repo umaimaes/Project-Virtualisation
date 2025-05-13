@@ -1,0 +1,547 @@
+﻿@page "/CourseQuiz"
+<PageTitle>Quiz</PageTitle>
+@inject CourseService CService
+<style>
+    /* Reset and Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --primary-color: #7F56D9;
+        --primary-light: #F9F5FF;
+        --secondary-color: #101828;
+        --accent-color: #F63B60;
+        --text-color: #344054;
+        --light-text: #667085;
+        --border-color: #E4E7EC;
+        --background-color: #FFFFFF;
+        --light-background: #F9FAFB;
+        --success-color: #12B76A;
+        --success-light: #ECFDF3;
+        --warning-color: #F79009;
+        --error-color: #F04438;
+        --error-light: #FEF3F2;
+        --border-radius: 8px;
+        --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.1);
+        --shadow-md: 0 4px 8px -2px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
+        --shadow-lg: 0 12px 16px -4px rgba(16, 24, 40, 0.08), 0 4px 6px -2px rgba(16, 24, 40, 0.03);
+        --transition: all 0.3s ease;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        color: var(--text-color);
+        line-height: 1.5;
+        background-color: var(--background-color);
+    }
+
+    .container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+        transition: var(--transition);
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--secondary-color);
+        font-weight: 600;
+        line-height: 1.2;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+    }
+
+    p {
+        margin-bottom: 1rem;
+        color: var(--light-text);
+    }
+
+    h1 span, h2 span {
+        color: var(--primary-color);
+    }
+
+    /* Header */
+    header {
+        padding: 1.25rem 0;
+        background-color: rgba(255, 255, 255, 0.95);
+        box-shadow: var(--shadow-sm);
+    }
+
+    header .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--secondary-color);
+    }
+
+    .logo span {
+        color: var(--primary-color);
+    }
+
+    /* Quiz Section */
+    .quiz-section {
+        padding: 3rem 0;
+    }
+
+    .quiz-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .quiz-header p {
+        max-width: 600px;
+        margin: 0 auto 1rem;
+    }
+
+    .quiz-container {
+        background-color: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-md);
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .quiz-question {
+        margin-bottom: 2.5rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .quiz-question:last-child {
+        margin-bottom: 1.5rem;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .question-number {
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .question-text {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+    }
+
+    .options-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .option-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .option-item:hover {
+        background-color: var(--primary-light);
+        border-color: var(--primary-color);
+    }
+
+    .option-item.selected {
+        background-color: var(--primary-light);
+        border-color: var(--primary-color);
+    }
+
+    .option-radio {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--border-color);
+        border-radius: 50%;
+        outline: none;
+        margin-top: 0.125rem;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .option-radio:checked {
+        border-color: var(--primary-color);
+    }
+
+    .option-radio:checked::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        background-color: var(--primary-color);
+        border-radius: 50%;
+    }
+
+    .option-label {
+        flex: 1;
+    }
+
+    .quiz-actions {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--border-radius);
+        font-weight: 500;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        text-align: center;
+        border: none;
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #6941C6;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-secondary {
+        background-color: transparent;
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+        margin-right: 1rem;
+    }
+
+    .btn-secondary:hover {
+        background-color: var(--light-background);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .btn-success {
+        background-color: var(--success-color);
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #0E9F5D;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    /* Congratulations Section */
+    .congrats-section {
+        display: none;
+        text-align: center;
+        padding: 3rem 0;
+    }
+
+    .congrats-container {
+        background-color: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-md);
+        padding: 3rem 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .congrats-icon {
+        width: 80px;
+        height: 80px;
+        background-color: var(--primary-light);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+    }
+
+    .congrats-icon svg {
+        width: 40px;
+        height: 40px;
+        color: var(--primary-color);
+    }
+
+    .congrats-title {
+        font-size: 1.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .congrats-message {
+        max-width: 500px;
+        margin: 0 auto 2rem;
+    }
+
+    .certificate-preview {
+        max-width: 400px;
+        margin: 0 auto 2rem;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        background-color: var(--light-background);
+        position: relative;
+    }
+
+    .certificate-preview::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%237F56D9' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        border-radius: var(--border-radius);
+        opacity: 0.5;
+    }
+
+    .certificate-content {
+        position: relative;
+        text-align: center;
+    }
+
+    .certificate-logo {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+    }
+
+    .certificate-logo span {
+        color: var(--primary-color);
+    }
+
+    .certificate-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--secondary-color);
+    }
+
+    .certificate-name {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .certificate-course {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .certificate-date {
+        font-size: 0.875rem;
+        color: var(--light-text);
+    }
+
+    .certificate-seal {
+        width: 60px;
+        height: 60px;
+        margin: 1rem auto;
+        background-color: var(--primary-light);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .certificate-seal svg {
+        width: 30px;
+        height: 30px;
+        color: var(--primary-color);
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+    }
+</style>
+
+<section class="quiz-section" id="quizSection">
+    <div class="container">
+        <div class="quiz-header">
+            <h1>Web Development <span>Fundamentals</span></h1>
+            <p>Complete this quick quiz to test your knowledge before starting the course.</p>
+        </div>
+        
+        <div class="quiz-container">
+            <form id="quizForm">
+                <!-- Question 1 -->
+                <div class="quiz-question">
+                    <div class="question-number">Question 1 of 5</div>
+                    <div class="question-text">What does HTML stand for?</div>
+                    <div class="options-list">
+                        <label class="option-item">
+                            <input type="radio" name="q1" value="1" class="option-radio" required>
+                            <div class="option-label">Hyper Text Markup Language</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q1" value="2" class="option-radio">
+                            <div class="option-label">Hyper Transfer Markup Language</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q1" value="3" class="option-radio">
+                            <div class="option-label">Hyper Text Markdown Language</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q1" value="4" class="option-radio">
+                            <div class="option-label">High Tech Modern Language</div>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Question 2 -->
+                <div class="quiz-question">
+                    <div class="question-number">Question 2 of 5</div>
+                    <div class="question-text">Which of the following is used to style web pages?</div>
+                    <div class="options-list">
+                        <label class="option-item">
+                            <input type="radio" name="q2" value="1" class="option-radio" required>
+                            <div class="option-label">HTML</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q2" value="2" class="option-radio">
+                            <div class="option-label">CSS</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q2" value="3" class="option-radio">
+                            <div class="option-label">JavaScript</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q2" value="4" class="option-radio">
+                            <div class="option-label">PHP</div>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Question 3 -->
+                <div class="quiz-question">
+                    <div class="question-number">Question 3 of 5</div>
+                    <div class="question-text">Which property is used to change the background color in CSS?</div>
+                    <div class="options-list">
+                        <label class="option-item">
+                            <input type="radio" name="q3" value="1" class="option-radio" required>
+                            <div class="option-label">color</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q3" value="2" class="option-radio">
+                            <div class="option-label">bgcolor</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q3" value="3" class="option-radio">
+                            <div class="option-label">background-color</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q3" value="4" class="option-radio">
+                            <div class="option-label">background</div>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Question 4 -->
+                <div class="quiz-question">
+                    <div class="question-number">Question 4 of 5</div>
+                    <div class="question-text">Which of the following is NOT a JavaScript data type?</div>
+                    <div class="options-list">
+                        <label class="option-item">
+                            <input type="radio" name="q4" value="1" class="option-radio" required>
+                            <div class="option-label">String</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q4" value="2" class="option-radio">
+                            <div class="option-label">Boolean</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q4" value="3" class="option-radio">
+                            <div class="option-label">Character</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q4" value="4" class="option-radio">
+                            <div class="option-label">Number</div>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Question 5 -->
+                <div class="quiz-question">
+                    <div class="question-number">Question 5 of 5</div>
+                    <div class="question-text">Which HTML tag is used to create a hyperlink?</div>
+                    <div class="options-list">
+                        <label class="option-item">
+                            <input type="radio" name="q5" value="1" class="option-radio" required>
+                            <div class="option-label">&lt;link&gt;</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q5" value="2" class="option-radio">
+                            <div class="option-label">&lt;a&gt;</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q5" value="3" class="option-radio">
+                            <div class="option-label">&lt;href&gt;</div>
+                        </label>
+                        <label class="option-item">
+                            <input type="radio" name="q5" value="4" class="option-radio">
+                            <div class="option-label">&lt;url&gt;</div>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="quiz-actions">
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                    <button type="submit" class="btn btn-primary">Submit Quiz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+@code{
+    Course course;
+    protected override async Task OnInitializedAsync()
+    {
+        course = CService.GetCourse();
+    }
+}

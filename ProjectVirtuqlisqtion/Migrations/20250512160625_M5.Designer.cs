@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectVirtuqlisqtion.Data;
 
@@ -10,9 +11,11 @@ using ProjectVirtuqlisqtion.Data;
 namespace ProjectVirtuqlisqtion.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250512160625_M5")]
+    partial class M5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,7 +142,7 @@ namespace ProjectVirtuqlisqtion.Migrations
 
                     b.HasIndex("QuizQuestionId");
 
-                    b.ToTable("QuizOptions");
+                    b.ToTable("QuizOption");
                 });
 
             modelBuilder.Entity("ProjectVirtuqlisqtion.Models.QuizQuestion", b =>
@@ -164,7 +167,7 @@ namespace ProjectVirtuqlisqtion.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("QuizQuestions");
+                    b.ToTable("QuizQuestion");
                 });
 
             modelBuilder.Entity("ProjectVirtuqlisqtion.Models.User", b =>
