@@ -21,6 +21,7 @@ namespace ProjectVirtuqlisqtion.Services
             return await _context.Courses
                 .Include(c => c.Curriculum)
                 .Include(c=>c.Quiz)
+                    .ThenInclude(c=>c.Options)
                 .Include(c => c.Instructor)
                 .Include(c => c.WhatYouWillLearns)
                 .ToListAsync();
