@@ -1,4 +1,5 @@
-﻿<style>
+﻿@inject StudentService ss
+<style>
     /* Header */
     header {
         padding: 1.25rem 0;
@@ -83,8 +84,23 @@
             </ul>
         </nav>
         <div class="cta-buttons">
-            <a href="#" class="btn btn-primary">Sign Up</a>
+            @if (student is not null)
+            {
+                <a href="#" class="btn btn-primary">Profile Etudiant</a>
+                
+            }
+            else
+            {
+                <a href="/SignIn" class="btn btn-primary">Sign Up</a>
+            }
         </div>
     </div>
 </header>
 
+@code{
+    Student? student;
+    protected override async Task OnInitializedAsync()
+    {
+        student = ss.GetStudent();
+    }
+}

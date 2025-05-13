@@ -11,8 +11,8 @@ using ProjectVirtuqlisqtion.Data;
 namespace ProjectVirtuqlisqtion.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250509050154_M2")]
-    partial class M2
+    [Migration("20250513160638_M1")]
+    partial class M1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,7 +123,54 @@ namespace ProjectVirtuqlisqtion.Migrations
                     b.ToTable("Instructors");
                 });
 
-            modelBuilder.Entity("ProjectVirtuqlisqtion.Models.User", b =>
+            modelBuilder.Entity("ProjectVirtuqlisqtion.Models.QuizOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("QuizQuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuizQuestionId");
+
+                    b.ToTable("QuizOptions");
+                });
+
+            modelBuilder.Entity("ProjectVirtuqlisqtion.Models.QuizQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CorrectOptionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CourseId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("QuestionText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("QuizQuestions");
+                });
+
+            modelBuilder.Entity("ProjectVirtuqlisqtion.Models.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,21 +182,17 @@ namespace ProjectVirtuqlisqtion.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Nom")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Prenom")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Telephone")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("ProjectVirtuqlisqtion.Models.WhatYouWillLearn", b =>
@@ -190,6 +233,20 @@ namespace ProjectVirtuqlisqtion.Migrations
                         .HasForeignKey("CourseId");
                 });
 
+            modelBuilder.Entity("ProjectVirtuqlisqtion.Models.QuizOption", b =>
+                {
+                    b.HasOne("ProjectVirtuqlisqtion.Models.QuizQuestion", null)
+                        .WithMany("Options")
+                        .HasForeignKey("QuizQuestionId");
+                });
+
+            modelBuilder.Entity("ProjectVirtuqlisqtion.Models.QuizQuestion", b =>
+                {
+                    b.HasOne("ProjectVirtuqlisqtion.Models.Course", null)
+                        .WithMany("Quiz")
+                        .HasForeignKey("CourseId");
+                });
+
             modelBuilder.Entity("ProjectVirtuqlisqtion.Models.WhatYouWillLearn", b =>
                 {
                     b.HasOne("ProjectVirtuqlisqtion.Models.Course", null)
@@ -201,7 +258,14 @@ namespace ProjectVirtuqlisqtion.Migrations
                 {
                     b.Navigation("Curriculum");
 
+                    b.Navigation("Quiz");
+
                     b.Navigation("WhatYouWillLearns");
+                });
+
+            modelBuilder.Entity("ProjectVirtuqlisqtion.Models.QuizQuestion", b =>
+                {
+                    b.Navigation("Options");
                 });
 #pragma warning restore 612, 618
         }

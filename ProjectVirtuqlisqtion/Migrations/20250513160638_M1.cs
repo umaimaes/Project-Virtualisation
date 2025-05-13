@@ -5,7 +5,7 @@
 namespace ProjectVirtuqlisqtion.Migrations
 {
     /// <inheritdoc />
-    public partial class M2 : Migration
+    public partial class M1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,6 +23,21 @@ namespace ProjectVirtuqlisqtion.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Instructors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,6 +87,26 @@ namespace ProjectVirtuqlisqtion.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "QuizQuestions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuestionText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CorrectOptionId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuizQuestions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuizQuestions_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Whats",
                 columns: table => new
                 {
@@ -90,6 +125,25 @@ namespace ProjectVirtuqlisqtion.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "QuizOptions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    QuizQuestionId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuizOptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuizOptions_QuizQuestions_QuizQuestionId",
+                        column: x => x.QuizQuestionId,
+                        principalTable: "QuizQuestions",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_InstructorId",
                 table: "Courses",
@@ -98,6 +152,16 @@ namespace ProjectVirtuqlisqtion.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_CourseSections_CourseId",
                 table: "CourseSections",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizOptions_QuizQuestionId",
+                table: "QuizOptions",
+                column: "QuizQuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizQuestions_CourseId",
+                table: "QuizQuestions",
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
@@ -113,7 +177,16 @@ namespace ProjectVirtuqlisqtion.Migrations
                 name: "CourseSections");
 
             migrationBuilder.DropTable(
+                name: "QuizOptions");
+
+            migrationBuilder.DropTable(
+                name: "Students");
+
+            migrationBuilder.DropTable(
                 name: "Whats");
+
+            migrationBuilder.DropTable(
+                name: "QuizQuestions");
 
             migrationBuilder.DropTable(
                 name: "Courses");

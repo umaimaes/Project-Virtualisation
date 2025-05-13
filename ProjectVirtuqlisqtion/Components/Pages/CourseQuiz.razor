@@ -1,6 +1,8 @@
 ﻿@page "/CourseQuiz"
 <PageTitle>Quiz</PageTitle>
+@inject NavigationManager NavigationManager
 @inject CourseService CService
+
 <style>
     /* Quiz Section */
     .quiz-section {
@@ -291,6 +293,8 @@
         justify-content: center;
     }
 </style>
+
+
 @if (course != null)
 {
     <section class="quiz-section" id="quizSection">
@@ -301,26 +305,35 @@
             </div>
 
             <div class="quiz-container">
-                    @foreach (var q in course.Quiz)
-                    {
-                        <div class="quiz-question">
-                            <div class="question-number">Question 1 of 5</div>
-                            <div class="question-text">@q.QuestionText</div>
-                            <div class="options-list">
-                                @foreach(var o in q.Options)
-                                {
-                                    <label class="option-item">
-                                        <input type="radio" class="option-radio">
-                                        <div class="option-label">@o.Text</div>
-                                    </label>
-                                }
-                            </div>
+                @foreach (var q in course.Quiz.Select((value, index) => new { value, index }))
+                {
+                    <div class="quiz-question">
+                        <div class="question-number">Question @(q.index + 1) of @course.Quiz.Count</div>
+                        <div class="question-text">@q.value.QuestionText</div>
+                        <div class="options-list">
+                            @foreach (var o in q.value.Options)
+                            {
+                                <label class="option-item @(selectedAnswers.ContainsKey(q.index) && selectedAnswers[q.index] == o.Id ? "selected" : "")">
+                                    <input type="radio"
+                                           class="option-radio"
+                                           name="question-@q.index"
+                                           value="@o.Id"
+                                           @onchange="() => SelectAnswer(q.index, o.Id)"
+                                           checked="@(selectedAnswers.ContainsKey(q.index) && selectedAnswers[q.index] == o.Id)">
+                                    <div class="option-label">@o.Text</div>
+                                </label>
+                            }
                         </div>
-                    }
-                    <div class="quiz-actions">
-                        <button  class="btn btn-secondary">Reset</button>
-                        <button  class="btn btn-primary" >Submit Quiz</button>
+                        <div class="quiz-actions">
+                            <button class="btn btn-secondary" @onclick="() => ResetQuestion(q.index)">Reset Qst</button>
+                            <button class="btn btn-primary" @onclick="() => ValidateQuestion(q.index)">Validate Qst</button>
+                        </div>
                     </div>
+                }
+            </div>
+
+            <div class="quiz-actions">
+                <button class="btn btn-primary" @onclick="SubmitQuiz">Submit Quiz</button>
             </div>
         </div>
     </section>
@@ -328,9 +341,42 @@
 
 @code {
     Course course;
+    private Dictionary<int, int> selectedAnswers = new(); // To track selected answers per question
+    private Dictionary<int, bool> validatedQuestions = new(); // To track validated questions
+
     protected override async Task OnInitializedAsync()
     {
         course = CService.GetCourse();
     }
-    
+
+    private void SelectAnswer(int questionIndex, int optionId)
+    {
+        selectedAnswers[questionIndex] = optionId;
+    }
+
+    private void ValidateQuestion(int questionIndex)
+    {
+        if (selectedAnswers.ContainsKey(questionIndex))
+        {
+            validatedQuestions[questionIndex] = true;
+            StateHasChanged();
+        }
+        else
+        {
+            validatedQuestions[questionIndex] = false;
+            StateHasChanged();
+        }
+    }
+
+    private void ResetQuestion(int questionIndex)
+    {
+        selectedAnswers.Remove(questionIndex); // Remove answer
+        validatedQuestions.Remove(questionIndex); // Remove validation
+        StateHasChanged();
+    }
+
+    private void SubmitQuiz()
+    {
+        
+    }
 }

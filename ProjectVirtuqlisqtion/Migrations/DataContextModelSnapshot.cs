@@ -167,7 +167,7 @@ namespace ProjectVirtuqlisqtion.Migrations
                     b.ToTable("QuizQuestions");
                 });
 
-            modelBuilder.Entity("ProjectVirtuqlisqtion.Models.User", b =>
+            modelBuilder.Entity("ProjectVirtuqlisqtion.Models.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -179,21 +179,17 @@ namespace ProjectVirtuqlisqtion.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Nom")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Prenom")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Telephone")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("ProjectVirtuqlisqtion.Models.WhatYouWillLearn", b =>

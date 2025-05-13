@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<CourseService>();
 
 //
