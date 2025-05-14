@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edusphere-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: edusphere
+  template:
+    metadata:
+      labels:
+        app: edusphere
+    spec:
+      containers:
+      - name: edusphere
+        image: yourdockerhubusername/edusphere:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: ConnectionStrings__DefaultConnection
+          value: "Server=mssql;Database=ElearningDb;User=sa;Password=YourStrong!Passw0rd"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edusphere-service
+spec:
+  selector:
+    app: edusphere
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer

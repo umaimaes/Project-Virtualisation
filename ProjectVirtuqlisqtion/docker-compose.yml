@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  edusphere:
+    build: .
+    ports:
+      - "5000:80"
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=ElearningDb;User=sa;Password=!Passw0rd;
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
